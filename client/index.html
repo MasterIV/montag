@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Montagsmaler</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="helper.js"></script>
+		<script type="text/javascript" src="protocol.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+	</head>
+
+	<body>
+
+		<form onsubmit="return sendform(this);">
+
+		<table id="chat_container">
+			<tr>
+				<td width="600">
+					<canvas id="game_screen" width="600" height="400"></canvas>
+					<div id="chat_content"><div></div></div>
+				</td><td width="200">
+					<div id="chat_users"></div>
+				</td>
+			</tr><tr>
+				<td>
+					<input type="text" name="chat_input" id="chat_input">
+				</td><td>
+					<input type="submit" id="chat_submit" value="Senden">
+				</td>
+			</tr>
+		</table>
+
+		</form>
+
+	</body>
+</html>

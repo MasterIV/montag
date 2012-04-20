@@ -1,0 +1,50 @@
+body {
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
+}
+
+#chat_container {
+	margin: 10px auto;
+	border-spacing: 5px
+}
+
+#chat_container td {
+	vertical-align: top;
+
+}
+
+#chat_input, #chat_submit {
+	width: 100%;
+}
+
+#chat_users, #chat_content, #game_screen {
+	border: 1px solid black;
+}
+
+#chat_content, #chat_users {
+	overflow: auto;
+}
+
+#chat_content {
+	height: 150px;
+}
+
+#chat_users {
+	height: 300px;
+}
+
+#chat_content .username {
+	font-weight: bold;
+}
+
+#chat_content >div > div  {
+	margin: 2px;
+}
+
+#chat_users .username {
+	padding: 3px;
+}
+
+#chat_users .username:hover {
+	background-color: #DDD;
+}
