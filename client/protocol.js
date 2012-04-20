@@ -36,15 +36,12 @@ var protocol = {
 	},
 
 	pen_down: function( data ) {
-
+		game.before.x = data.x;
+		game.before.y = data.y;
 	},
 
 	pen_move: function( data ) {
-
-	},
-
-	pen_up: function( data ) {
-
+		game.draw_line( data.x, data.y );
 	},
 
 	game_new: function( data ) {

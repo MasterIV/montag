@@ -48,3 +48,7 @@ body {
 #chat_users .username:hover {
 	background-color: #DDD;
 }
+
+#game_screen {
+	position: relative;
+}

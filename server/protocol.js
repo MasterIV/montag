@@ -14,27 +14,22 @@ var protocol = {
 	},
 
 	screen_clear: function( user, data, io ) {
-		if( user.data.id == game.painter.id || true )
+		//if( user.data.id == game.painter.id )
 			user.broadcast.emit( 'screen_clear', data );
 	},
 
 	color_set: function( user, data, io ) {
-		if( user.data.id == game.painter.id || true )
+		//if( user.data.id == game.painter.id )
 			user.broadcast.emit( 'color_set', data );
 	},
 
 	pen_down: function( user, data, io ) {
-		if( user.data.id == game.painter.id || true )
+		//if( user.data.id == game.painter.id )
 			user.broadcast.emit( 'pen_down', data );
 	},
 
-	pen_up: function( user, data, io ) {
-		if( user.data.id == game.painter.id || true )
-			user.broadcast.emit( 'pen_up', data );
-	},
-
 	pen_move: function( user, data, io ) {
-		if( user.data.id == game.painter.id || true )
+		//if( user.data.id == game.painter.id )
 			user.broadcast.emit( 'pen_move', data );
 	}
 }
