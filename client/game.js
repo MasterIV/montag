@@ -13,7 +13,10 @@ var game = {
 		this.before.x = x;
 		this.before.y = y;
 	},
-
+	
+	screen_clear: function() {
+		this.ctx.clearRect ( 0, 0, 600, 400 );
+	},
 	pen_down: function( ev ) {		
 		if(game.ispainter){
 				var x = ev.layerX;

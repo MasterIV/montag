@@ -54,3 +54,7 @@ function sendform( form ) {
 function request_paint() {
 	socket.emit( 'painter_request',{} );
 }
+
+function screen_clear() {
+	socket.emit( 'screen_clear',{} );
+}

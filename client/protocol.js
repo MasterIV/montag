@@ -34,7 +34,7 @@ var protocol = {
 	},
 
 	screen_clear: function( data ) {
-
+		game.screen_clear();
 	},
 
 	pen_down: function( data ) {
@@ -47,7 +47,8 @@ var protocol = {
 	},
 
 	game_new: function( data ) {
-
+		var name = $( '#user_'+data.user ).text();
+		system( name+' malt nun etwas. Du kannst es hier erraten.' );
 	},
 
 	game_word: function( data ) {

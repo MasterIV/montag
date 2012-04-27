@@ -14,6 +14,7 @@ var game = {
 		this.queue.push( user );
 		if( !this.painter ){
 			this.start();
+			return;
 		}
 		user.emit( 'info', { text: ('Du bist warteschlange an Platz '+this.queue.length) });
 	},
@@ -23,7 +24,7 @@ var game = {
 
 		this.painter = this.queue.shift();
 
-		this.painter.broadcast.emit( 'game_new', {user: this.painter.id } );
+		this.painter.broadcast.emit( 'game_new', {user: this.painter.data.id } );
 		this.painter.emit( 'painer_set', { });
 		this.painter.emit( 'info', { text: ('Du kannst jetzt malen ;D ') }); //nachher hier das wort senden 
 		setTimeout( function() { game.end(); }, 120000 );

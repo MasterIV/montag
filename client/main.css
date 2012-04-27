@@ -57,8 +57,15 @@ body {
 	margin: 2px;	
 	height: 20px;
 	width:  200px;
+	text-align: center;
 }
-
+#screen_clear {
+	background-color: #DDD;
+	margin: 2px;	
+	height: 20px;
+	width:  200px;
+	text-align: center;
+}
 #game_screen {
 	position: relative;
 }
