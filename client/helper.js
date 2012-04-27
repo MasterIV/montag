@@ -50,3 +50,7 @@ function sendform( form ) {
 
 	return false;
 }
+
+function request_paint() {
+	socket.emit( 'painter_request',{} );
+}

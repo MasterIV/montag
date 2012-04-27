@@ -31,6 +31,10 @@ body {
 
 #chat_users {
 	height: 300px;
+	width:  200px;
+}
+#request_painting {
+	
 }
 
 #chat_content .username {
@@ -47,6 +51,12 @@ body {
 
 #chat_users .username:hover {
 	background-color: #DDD;
+}
+#request_painting {
+	background-color: #DDD;
+	margin: 2px;	
+	height: 20px;
+	width:  200px;
 }
 
 #game_screen {

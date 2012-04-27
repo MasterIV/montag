@@ -20,7 +20,9 @@ var protocol = {
 	say: function( data ) {
 		say( data.user, data.text );
 	},
-
+	info: function( data ) {
+		system( data.text );
+	},
 	name: function( data ) {
 		var old = $( '#user_'+data.user ).text();
 		system( old+' heißt nun '+data.name );
@@ -28,7 +30,7 @@ var protocol = {
 	},
 
 	painer_set: function( data ) {
-
+		game.ispainter = true;
 	},
 
 	screen_clear: function( data ) {

@@ -10,7 +10,7 @@ var protocol = {
 	},
 
 	painter_request: function( user, data, io ) {
-		user.broadcast.emit( 'say', { user: user.data.id, text: data });
+		game.request(user);
 	},
 
 	screen_clear: function( user, data, io ) {

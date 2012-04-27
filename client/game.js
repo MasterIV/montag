@@ -2,6 +2,7 @@ var game = {
 	canvas: null,
 	before: {x: 0, y: 0},
 	drawing: false,
+	ispainter: false,
 
 
 	draw_line: function( x, y ) {
@@ -13,26 +14,30 @@ var game = {
 		this.before.y = y;
 	},
 
-	pen_down: function( ev ) {
-		var x = ev.layerX;
-		var y = ev.layerY;
+	pen_down: function( ev ) {		
+		if(game.ispainter){
+				var x = ev.layerX;
+				var y = ev.layerY;
 
-		game.before.x = x;
-		game.before.y = y;
-		game.drawing = true;
+				game.before.x = x;
+				game.before.y = y;
+				game.drawing = true;
 
-		socket.emit( 'pen_down', game.before );
+				socket.emit( 'pen_down', game.before );
+		}
 	},
 
 	pen_move: function( ev ) {
-		var x = ev.layerX;
-		var y = ev.layerY;
+		if(game.ispainter){
+			var x = ev.layerX;
+			var y = ev.layerY;
 
-		if( !game.drawing ) return;
-		if( x == game.before.x && y == game.before.y ) return;
+			if( !game.drawing ) return;
+			if( x == game.before.x && y == game.before.y ) return;
 
-		game.draw_line(x, y);
-		socket.emit( 'pen_move', game.before );
+			game.draw_line(x, y);
+			socket.emit( 'pen_move', game.before );
+		}
 	},
 
 	pen_up: function( ev ) {
