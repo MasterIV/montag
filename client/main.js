@@ -5,7 +5,7 @@ $( function() {
 	game.canvas = document.getElementById( 'game_screen' );
 	game.ctx = game.canvas.getContext( '2d' );
 
-	socket = io.connect('http://172.16.22.58:8080/');
+	socket = io.connect('/');
 
 	socket.on( 'connect', function() {
 		$( '#chat_users div' ).remove();

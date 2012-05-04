@@ -1,39 +1,85 @@
+var db = null
+  , logger = null
+  , io = null
+	, painter = null
+	, queue = []
+	, timeout = null
+	, word = null;
+
 var game = {
-	queue: [],
-	painter: null,
-	timeout: null,
+
+	init: function( setdb, setlogger, setio ) {
+		db = setdb;
+		logger = setlogger;
+		io = setio;
+		return this;
+	},
+
+	ispainter: function( user ) {
+		return user == painter;
+	},
+
+	disconnect: function( user ) {
+		if( user == painter ) {
+			this.end();
+		}
+	},
+
+	check: function( user, guess ) {
+		if( !painter || user == painter ) return false;
+		if( guess.toLowerCase() == word.toLowerCase() ) this.end( user )
+	},
 
 	request: function( user ) {
-		for( var z in this.queue ){
-			if(this.queue[z].id == user.id){
-				user.emit( 'info', { text: ('Du bist bereits in der warteschlange an Platz '+z) });
-				return;
-			}
+		var queuepos = queue.indexOf( user );
+
+		if( queuepos != -1 ){
+			if( queuepos ) user.emit( 'info', { text: ('Du befindest dich bereits in der Warteschlange. Vor dir sind noch '+queuepos+' Personen an der Reihe.') });
+			else user.emit( 'info', { text: ('Du befindest dich bereits in der Warteschlange. Du bist als nächstes an der Reihe.') });
 		}
-		
-		this.queue.push( user );
-		if( !this.painter ){
+
+		queue.push( user );
+		queuepos = queue.length-1;
+
+		if( !painter ){
 			this.start();
-			return;
+		} else {
+			if( queuepos ) user.emit( 'info', { text: ('Du wurdest als Zeichner vorgemerkt. Vor dir sind noch '+queuepos+' Personen an der Reihe.') });
+			else user.emit( 'info', { text: ('Du wurdest als Zeichner vorgemerkt. Du bist als nächstes an der Reihe.') });
 		}
-		user.emit( 'info', { text: ('Du bist warteschlange an Platz '+this.queue.length) });
 	},
 
 	start: function() {
-		if( !this.queue.length ) return false;
+		if( !queue.length ) return false;
+		logger.log( 2, 'Starting a new Game' );
 
-		this.painter = this.queue.shift();
+		db.query( "SELECT * FROM words ORDER BY occured, RAND() LIMIT 1" ).execute( function(error, rows, cols) {
+			if(error) {
+				logger.log( 0, error );
+			} else {
+				word = rows[0].word;
+				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id ).execute();
 
-		this.painter.broadcast.emit( 'game_new', {user: this.painter.data.id } );
-		this.painter.emit( 'painer_set', { });
-		this.painter.emit( 'info', { text: ('Du kannst jetzt malen ;D ') }); //nachher hier das wort senden 
-		setTimeout( function() { game.end(); }, 120000 );
+				painter = queue.shift();
+				setTimeout( function() { game.end(); }, 120000 );
+
+				io.sockets.emit( 'screen_clear', {} );
+				painter.broadcast.emit( 'info', { text: ('Eine neue Runde hat begonnen, der Maler ist '+painter.data.name), color: '#000088' });
+				painter.emit( 'game_word', { word: word });
+			}
+		});
 	},
 
-	end: function() {
-		// message with winner and so on...
+	end: function( user ) {
+		clearTimeout( timeout );
 
-		this.painter = null;
+		if( user ) {
+			io.sockets.emit( 'game_resolve', { user: user.data.id, word: word } );
+		} else {
+			io.sockets.emit( 'game_end', { word: word } );
+		}
+
+		painter = null;
 		this.start();
 	}
 }

@@ -1,38 +1,55 @@
-var game = require( './game.js' );
+
+var game = null
+  , db = null
+  , io = null;
 
 var protocol = {
-	name: function( user, data, io ) {
-		io.sockets.emit( 'name', { user: user.data.id, name: data });
+	init: function( setgame, setdb, setio ) {
+		db = setdb;
+		game = setgame;
+		io = setio;
+		return this;
 	},
 
-	say: function( user, data, io ) {
-		user.broadcast.emit( 'say', { user: user.data.id, text: data });
+	register: function( user ) {
+		for( var f in this.commands )
+			user.on( f, this.commands[f] );
 	},
 
-	painter_request: function( user, data, io ) {
-		game.request(user);
-	},
+	commands: {
+		name: function( data ) {
+			io.sockets.emit( 'name', {user: this.data.id, name: data});
+		},
 
-	screen_clear: function( user, data, io ) {
-		if(game.painter && user.data.id == game.painter.data.id )
-			io.sockets.emit( 'screen_clear', data );
-	},
+		say: function( data ) {
+			this.broadcast.emit( 'say', {user: this.data.id, text: data});
+			game.check( this, data );
+		},
 
-	color_set: function( user, data, io ) {
-		if(game.painter && user.data.id == game.painter.data.id )
-			user.broadcast.emit( 'color_set', data );
-	},
+		painter_request: function( data ) {
+			game.request( this );
+		},
 
-	pen_down: function( user, data, io ) {
-		if(game.painter && user.data.id == game.painter.data.id )
-			user.broadcast.emit( 'pen_down', data );
-	},
+		screen_clear: function( data ) {
+			if( game.ispainter( this ))
+				this.broadcast.emit( 'screen_clear', data );
+		},
 
-	pen_move: function( user, data, io ) {
-		if(game.painter && user.data.id == game.painter.data.id )
-			user.broadcast.emit( 'pen_move', data );
+		color_set: function( data ) {
+			if( game.ispainter( this ))
+				this.broadcast.emit( 'color_set', data );
+		},
+
+		pen_down: function( data ) {
+			if( game.ispainter( this ))
+				this.broadcast.emit( 'pen_down', data );
+		},
+
+		pen_move: function( data ) {
+			if( game.ispainter( this ))
+				this.broadcast.emit( 'pen_move', data );
+		}
 	}
 }
 
 module.exports = protocol;
-

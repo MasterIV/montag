@@ -20,17 +20,15 @@ var protocol = {
 	say: function( data ) {
 		say( data.user, data.text );
 	},
+
 	info: function( data ) {
-		system( data.text );
+		system( data.text, data.color );
 	},
+
 	name: function( data ) {
 		var old = $( '#user_'+data.user ).text();
 		system( old+' heißt nun '+data.name );
 		$( '#user_'+data.user ).text( data.name );
-	},
-
-	painer_set: function( data ) {
-		game.ispainter = true;
 	},
 
 	screen_clear: function( data ) {
@@ -46,21 +44,20 @@ var protocol = {
 		game.draw_line( data.x, data.y );
 	},
 
-	game_new: function( data ) {
-		var name = $( '#user_'+data.user ).text();
-		system( name+' malt nun etwas. Du kannst es hier erraten.' );
-	},
-
 	game_word: function( data ) {
-
+		game.ispainter = true;
+		system( 'Du bist an der Reihe! Male das folgende Wort: '+data.word, '#000088' );
 	},
 
 	game_resolve: function( data ) {
-
+		game.ispainter = false;
+		var winner = $( '#user_'+data.user ).text();
+		system( winner+' Wort zu erraten. Das Wort lautete: '+data.word, '#008800' );
 	},
 
-	game_points: function( data ) {
-
+	game_end: function( data ) {
+		game.ispainter = false;
+		system( 'Leider hat es keiner geschafft das Wort zu erraten. Das Wort lautete: '+data.word, '#880000' );
 	},
 
 	color_set: function( data ) {

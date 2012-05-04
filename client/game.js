@@ -4,7 +4,6 @@ var game = {
 	drawing: false,
 	ispainter: false,
 
-
 	draw_line: function( x, y ) {
 		this.ctx.beginPath();
 		this.ctx.moveTo( this.before.x, this.before.y );
@@ -13,11 +12,12 @@ var game = {
 		this.before.x = x;
 		this.before.y = y;
 	},
-	
+
 	screen_clear: function() {
-		this.ctx.clearRect ( 0, 0, 600, 400 );
+		this.canvas.width = this.canvas.width;
 	},
-	pen_down: function( ev ) {		
+
+	pen_down: function( ev ) {
 		if(game.ispainter){
 				var x = ev.layerX;
 				var y = ev.layerY;
