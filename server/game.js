@@ -61,7 +61,7 @@ var game = {
 				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id ).execute();
 
 				painter = queue.shift();
-				setTimeout( function() { game.end(); }, 120000 );
+				timeout = setTimeout( function() { game.end(); }, 120000 );
 
 				io.sockets.emit( 'screen_clear', {} );
 				painter.broadcast.emit( 'info', { text: ('Eine neue Runde hat begonnen, der Maler ist '+painter.data.name), color: '#000088' });
