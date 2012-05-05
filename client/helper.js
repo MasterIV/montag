@@ -30,7 +30,8 @@ function say( id, message ) {
 function sendform( form ) {
 	var text = form.chat_input.value;
 	form.chat_input.value = '';
-
+	if(text.length == 0)
+		return false;
 	if( text.substr( 0, 1 ) == "/" ) {
 		var args = text.substr( 1 ).split( " " );
 		var cmd = args.shift();
