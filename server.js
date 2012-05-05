@@ -12,8 +12,6 @@ var app = connect()
 
 
 var db = mysql.createClient( config );
-db.query( 'USE '+config.db );
-
 var server = http.createServer(app).listen(8080);
 var io = require('socket.io').listen(server);
 io.set('log level', 1 );
