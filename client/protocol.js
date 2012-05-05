@@ -1,7 +1,7 @@
 var protocol = {
 	init: function( data ) {
 		self = data.id;
-
+		game.color = game.allcolor[data.color];
 		for( var i = 0; i < data.users.length; i++)
 			adduser( data.users[i].id, data.users[i].name );
 		system( 'Verbindung hergestellt.' )
@@ -61,7 +61,7 @@ var protocol = {
 	},
 
 	color_set: function( data ) {
-
+		game.color = game.allcolor[data.color];
 	}
 
 

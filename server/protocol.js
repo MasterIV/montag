@@ -37,8 +37,10 @@ var protocol = {
 		},
 
 		color_set: function( data ) {
-			if( game.ispainter( this ))
-				this.broadcast.emit( 'color_set', data );
+			if( game.ispainter( this )){
+				game.color = data.color;
+				io.sockets.emit( 'color_set', data );
+			}
 		},
 
 		pen_down: function( data ) {

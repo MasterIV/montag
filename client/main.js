@@ -4,7 +4,7 @@ var self;
 $( function() {
 	game.canvas = document.getElementById( 'game_screen' );
 	game.ctx = game.canvas.getContext( '2d' );
-
+	
 	socket = io.connect('/');
 
 	socket.on( 'connect', function() {
@@ -18,6 +18,6 @@ $( function() {
 	game.canvas.onmousemove = game.pen_move;
 	game.canvas.onmousedown = game.pen_down;
 	game.canvas.onmouseup = game.pen_up;
-	game.ctx.strokeStyle = '#000000';
+	game.color = '#000000';
 
 });

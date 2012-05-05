@@ -61,3 +61,8 @@ function screen_clear() {
 	game.screen_clear();
 	socket.emit( 'screen_clear',{} );
 }
+
+function color_set( color_dom ){
+	var color = $(color_dom).data('color');
+	socket.emit( 'color_set',{color:color} );
+}

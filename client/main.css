@@ -66,6 +66,12 @@ body {
 	width:  200px;
 	text-align: center;
 }
+.color {
+	margin: 2px;
+	height: 20px;
+	width:  200px;
+	text-align: center;
+}
 #game_screen {
 	position: relative;
 }

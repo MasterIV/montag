@@ -7,7 +7,7 @@ var db = null
 	, word = null;
 
 var game = {
-
+	color : 6,
 	init: function( setdb, setlogger, setio ) {
 		db = setdb;
 		logger = setlogger;
