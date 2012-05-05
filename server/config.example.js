@@ -1,5 +1,5 @@
 module.exports = {
 	user: '',
 	password: '',
-	db: ''
+	database: ''
 };
