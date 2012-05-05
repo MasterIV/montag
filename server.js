@@ -1,26 +1,18 @@
 var connect = require('connect')
 	, http = require('http')
-	, mysql = require( 'db-mysql' );
+	, mysql = require( 'mysql' );
 
-var logger = require( './server/logger.js' );
+var logger = require( './server/logger.js' )
+  , config = require( './server/config.js' );
 
 var app = connect()
 		.use(connect.static(__dirname + '/client'))
 		.use(connect.compress())
 		.use(connect.staticCache());
 
-var db = new mysql.Database({
-	hostname: 'localhost',
-	user: 'montag',
-	password: 'bruttoinlandsprodukt',
-	database: 'dev_montag'
-});
 
-db.on('error', function(error) {
-	logger.log( 0, error);
-}).on('ready', function(server) {
-	logger.log( 2, 'Connected to ' + server.hostname + ' (' + server.version + ')');
-}).connect();
+var db = mysql.createClient( config );
+db.query( 'USE '+config.db );
 
 var server = http.createServer(app).listen(8080);
 var io = require('socket.io').listen(server);

@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `words` (
   `game` int(10) unsigned NOT NULL,
   `occured` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=385 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 --
 -- Daten für Tabelle `words`

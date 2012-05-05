@@ -56,13 +56,13 @@ var game = {
 		if( !queue.length ) return false;
 		logger.log( 2, 'Starting a new Game' );
 
-		db.query( "SELECT * FROM words ORDER BY occured, RAND() LIMIT 1" ).execute( function(error, rows, cols) {
+		db.query( "SELECT * FROM words ORDER BY occured, RAND() LIMIT 1", function(error, rows, cols) {
 			if(error) {
 				logger.log( 0, error );
 			} else {
 				word = rows[0].word;
 
-				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id ).execute( function(error, rows, cols) {
+				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id, function(error, rows, cols) {
 					if(error) { logger.log( 0, error ); }
 				} );
 
