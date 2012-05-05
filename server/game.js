@@ -23,6 +23,8 @@ var game = {
 		if( user == painter ) {
 			this.end();
 		}
+
+		//@todo remove disconnected user from queue
 	},
 
 	check: function( user, guess ) {
@@ -36,6 +38,7 @@ var game = {
 		if( queuepos != -1 ){
 			if( queuepos ) user.emit( 'info', { text: ('Du befindest dich bereits in der Warteschlange. Vor dir sind noch '+queuepos+' Personen an der Reihe.') });
 			else user.emit( 'info', { text: ('Du befindest dich bereits in der Warteschlange. Du bist als nächstes an der Reihe.') });
+			return;
 		}
 
 		queue.push( user );
@@ -58,7 +61,10 @@ var game = {
 				logger.log( 0, error );
 			} else {
 				word = rows[0].word;
-				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id ).execute();
+
+				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id ).execute( function(error, rows, cols) {
+					if(error) { logger.log( 0, error ); }
+				} );
 
 				painter = queue.shift();
 				timeout = setTimeout( function() { game.end(); }, 120000 );

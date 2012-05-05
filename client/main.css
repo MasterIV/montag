@@ -34,7 +34,7 @@ body {
 	width:  200px;
 }
 #request_painting {
-	
+
 }
 
 #chat_content .username {
@@ -54,18 +54,22 @@ body {
 }
 #request_painting {
 	background-color: #DDD;
-	margin: 2px;	
+	margin: 2px;
 	height: 20px;
 	width:  200px;
 	text-align: center;
 }
 #screen_clear {
 	background-color: #DDD;
-	margin: 2px;	
+	margin: 2px;
 	height: 20px;
 	width:  200px;
 	text-align: center;
 }
 #game_screen {
 	position: relative;
+}
+
+.btn {
+	cursor: pointer;
 }

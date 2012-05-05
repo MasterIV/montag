@@ -18,6 +18,7 @@ var protocol = {
 
 	commands: {
 		name: function( data ) {
+			this.data.name = data;
 			io.sockets.emit( 'name', {user: this.data.id, name: data});
 		},
 

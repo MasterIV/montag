@@ -57,5 +57,6 @@ function request_paint() {
 }
 
 function screen_clear() {
+	game.screen_clear();
 	socket.emit( 'screen_clear',{} );
 }
