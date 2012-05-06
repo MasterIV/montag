@@ -66,12 +66,16 @@ body {
 	width:  200px;
 	text-align: center;
 }
-.color {
+.color_box {
+	width: 200px;
+}
+.color_box .color {
+	float: left;
 	margin: 2px;
 	height: 20px;
-	width:  200px;
-	text-align: center;
+	width:  40px;
 }
+
 #game_screen {
 	position: relative;
 }
