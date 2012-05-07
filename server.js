@@ -10,11 +10,12 @@ var app = connect()
 		.use(connect.compress())
 		.use(connect.staticCache());
 
-
 var db = mysql.createClient( config );
 var server = http.createServer(app).listen(8080);
 var io = require('socket.io').listen(server);
+
 io.set('log level', 1 );
+logger.level = 2;
 
 var connections = [];
 var usercount = 0;
@@ -25,7 +26,7 @@ var protocol = require( './server/protocol.js' ).init( game, db, io );
 io.sockets.on('connection', function( user ) {
 	connections.push( user );
 
-	user.data = {id: ++usercount, name: 'Player '+usercount};
+	user.data = {id: ++usercount, name: 'Player '+usercount, points: 0 };
 	user.on( 'disconnect', function() {
 		user.broadcast.emit( 'leave', user.data );
 		game.disconnect(user);

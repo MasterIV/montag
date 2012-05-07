@@ -5,7 +5,10 @@ var db = null
 var painter = null
   , queue = []
   , timeout = null
-  , word = null;
+	, interval = null
+  , word = null
+	, points = 0
+	, timetaken = 0;
 
 var game = {
 	color : 6,
@@ -22,15 +25,16 @@ var game = {
 	},
 
 	disconnect: function( user ) {
+		queue.splice( queue.indexOf( user ), 1 );
+
 		if( user == painter ) {
 			this.end();
 		}
-
-		//@todo remove disconnected user from queue
 	},
 
 	check: function( user, guess ) {
 		if( !painter || user == painter ) return false;
+		logger.log( 3, user.data.name+' - >'+guess.toLowerCase()+'< - >'+word.toLowerCase()+'<' );
 		if( guess.toLowerCase() == word.toLowerCase() ) this.end( user )
 	},
 
@@ -56,13 +60,14 @@ var game = {
 
 	start: function() {
 		if( !queue.length ) return false;
-		logger.log( 2, 'Starting a new Game' );
+		logger.log( 3, 'Starting a new Game' );
 
 		db.query( "SELECT * FROM words ORDER BY occured, RAND() LIMIT 1", function(error, rows, cols) {
 			if(error) {
 				logger.log( 0, error );
 			} else {
 				word = rows[0].word;
+				points = 250; // points = word.points
 
 				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id, function(error, rows, cols) {
 					if(error) { logger.log( 0, error ); }
@@ -70,6 +75,7 @@ var game = {
 
 				painter = queue.shift();
 				timeout = setTimeout( function() { game.end(); }, 120000 );
+				interval = setInterval( function() { points *= .98; timetaken++; }, 1000 );
 
 				io.sockets.emit( 'screen_clear', {} );
 				painter.broadcast.emit( 'info', { text: ('Eine neue Runde hat begonnen, der Maler ist '+painter.data.name), color: '#000088' });
@@ -80,10 +86,16 @@ var game = {
 
 	end: function( user ) {
 		clearTimeout( timeout );
+		clearInterval( interval );
 
 		if( user ) {
-			io.sockets.emit( 'game_resolve', { user: user.data.id, word: word } );
+			painter.data.points += points|0;
+			user.data.points += points|0;
+
+			logger.log( 3, 'Tahe game is over and was won by: '+JSON.stringify( user.data ));
+			io.sockets.emit( 'game_resolve', { winner: user.data, painter: painter.data, word: word, points: points, time: timetaken } );
 		} else {
+			logger.log( 3, 'Tahe game is over without a winner.' );
 			io.sockets.emit( 'game_end', { word: word } );
 		}
 

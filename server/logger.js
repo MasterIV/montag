@@ -1,7 +1,7 @@
 var levels = [
     'error'
-  , 'warn'
-  , 'info'
+  , 'warn '
+  , 'info '
   , 'debug'
 ];
 
@@ -14,7 +14,10 @@ var colors = [
 
 
 module.exports = {
+	level: 4,
+
 	log: function( type, msg ) {
-		console.log( '   \033[' + colors[type] + 'm' + levels[type] + '  -\033[39m '+msg );
+		if( this.level > type )
+			console.log( '   \033[' + colors[type] + 'm' + levels[type] + ' -\033[39m '+msg );
 	}
 };

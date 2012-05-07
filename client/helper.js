@@ -9,13 +9,19 @@ function output( msg ) {
 	$( '#chat_content' ).scrollTop( $( '#chat_content div' ).height() );
 }
 
-function adduser( id, name ) {
-	$( '#chat_users' ).append( $( '<div id="user_'+id+'" class="username">').text( name ));
+function adduser( id, name, points ) {
+	var name = $( '<span class="name">').text( name );
+	var points = $( '<span class="points">').html( ' ('+Number( points )+' Punkte)' );
+	$( '#chat_users' ).append( $( '<div id="user_'+id+'" class="user">').append( name ).append( points ));
+}
+
+function setpoints( id, points ) {
+	$( '#user_'+id+' .points' ).html( ' ('+Number( points )+' Punkte)' );
 }
 
 function say( id, message ) {
 	var msg = $( '<span>' ).text( message );
-	var from = $( '<span class="username">' ).text( $( '#user_'+id ).text()+': ');
+	var from = $( '<span class="username">' ).text( $( '#user_'+id+' .name' ).text()+': ');
 
 	if( id == self ) {
 		msg.css( 'font-style', 'italic' );

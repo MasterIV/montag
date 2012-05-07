@@ -50,13 +50,20 @@ body {
 #chat_content >div > div  {
 	margin: 2px;
 }
-
-#chat_users .username {
+.user {
 	padding: 3px;
 }
 
-#chat_users .username:hover {
+.user:hover {
 	background-color: #DDD;
+}
+
+.user .points{
+	font-style: italic;
+}
+
+.user .name {
+	font-weight: bold;
 }
 
 .color_box {

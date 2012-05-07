@@ -3,17 +3,17 @@ var protocol = {
 		self = data.id;
 		game.color = game.allcolor[data.color];
 		for( var i = 0; i < data.users.length; i++)
-			adduser( data.users[i].id, data.users[i].name );
+			adduser( data.users[i].id, data.users[i].name, data.users[i].points );
 		system( 'Verbindung hergestellt.' )
 	},
 
 	join: function( data ) {
-		adduser( data.id, data.name );
+		adduser( data.id, data.name, data.points );
 		system( data.name+' hat den chat betreten.' )
 	},
 
 	leave: function( data ) {
-		output( $( '#user_'+data.id ).text()+' hat den chat verlassen.' )
+		output( $( '#user_'+data.id+' .name' ).text()+' hat den chat verlassen.' )
 		$( '#user_'+data.id ).remove();
 	},
 
@@ -26,9 +26,9 @@ var protocol = {
 	},
 
 	name: function( data ) {
-		var old = $( '#user_'+data.user ).text();
+		var old = $( '#user_'+data.user+' .name' ).text();
 		system( old+' heißt nun '+data.name );
-		$( '#user_'+data.user ).text( data.name );
+		$( '#user_'+data.user+' .name' ).text( data.name );
 	},
 
 	screen_clear: function( data ) {
@@ -51,8 +51,11 @@ var protocol = {
 
 	game_resolve: function( data ) {
 		game.ispainter = false;
-		var winner = $( '#user_'+data.user ).text();
-		system( winner+' Wort zu erraten. Das Wort lautete: '+data.word, '#008800' );
+
+		setpoints( data.winner.id, data.winner.points );
+		setpoints( data.painter.id, data.painter.points );
+		
+		system( data.winner.name+' Wort zu erraten. Das Wort lautete: '+data.word, '#008800' );
 	},
 
 	game_end: function( data ) {
