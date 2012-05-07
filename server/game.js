@@ -71,7 +71,6 @@ var game = {
 				word = rows[0].word;
 				points = 250; // points = word.points
 				game.countdown = timelimit;
-				console.log( this );
 
 				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id, function(error, rows, cols) {
 					if(error) { logger.log( 0, error ); }
