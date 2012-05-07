@@ -41,6 +41,11 @@ var game = {
 
 	},
 
+	end: function() {
+		clearInterval( this.interval );
+		$( '#countdown' ).text( '0:00' );
+	},
+
 	screen_clear: function() {
 		this.canvas.width = this.canvas.width;
 	},

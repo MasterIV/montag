@@ -71,11 +71,13 @@ var protocol = {
 		setpoints( data.painter.id, data.painter.points );
 
 		system( data.winner.name+' Wort zu erraten. Das Wort lautete: '+data.word, '#008800' );
+		game.end();
 	},
 
 	game_end: function( data ) {
 		game.ispainter = false;
 		system( 'Leider hat es keiner geschafft das Wort zu erraten. Das Wort lautete: '+data.word, '#880000' );
+		game.end();
 	},
 
 	color_set: function( data ) {
