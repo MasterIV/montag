@@ -3,11 +3,12 @@ var game = {
 	before: {x: 0, y: 0},
 	drawing: false,
 	ispainter: false,
-	allcolor : ['#FF0000','#00FFFF', '#C0C0C0',
-							'#0000FF', '#808080' , '#0000A0', '#000000',
-							'#ADD8E6', '#FFA500' , '#800080', '#A52A2A',
-							'#FFFF00', '#800000' , '#00FF00', '#008000',
-							'#FF00FF', '#808000'],
+
+	allcolor : ['#FF0000', '#00FFFF', '#C0C0C0', '#0000FF',
+							'#808080', '#0000A0', '#000000', '#ADD8E6',
+							'#FFA500', '#800080', '#FFFF00', '#B27A11' ,
+							'#00FF00', '#008000', '#FF00FF', '#808000'],
+
 	draw_line: function( x, y ) {
 		this.ctx.beginPath();
 		this.ctx.strokeStyle = this.color;

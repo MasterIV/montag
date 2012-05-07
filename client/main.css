@@ -13,12 +13,21 @@ body {
 
 }
 
-#chat_input, #chat_submit {
+#chat_submit {
 	width: 100%;
 }
 
 #chat_users, #chat_content, #game_screen {
-	border: 1px solid black;
+	border: 1px solid #aaaaa3;
+	border-radius: 2px;
+}
+
+#chat_input {
+	width: 600px;
+}
+
+ #game_screen {
+	width: 602px;
 }
 
 #chat_content, #chat_users {
@@ -30,11 +39,8 @@ body {
 }
 
 #chat_users {
-	height: 300px;
+	height: 390px;
 	width:  200px;
-}
-#request_painting {
-
 }
 
 #chat_content .username {
@@ -52,28 +58,19 @@ body {
 #chat_users .username:hover {
 	background-color: #DDD;
 }
-#request_painting {
-	background-color: #DDD;
-	margin: 2px;
-	height: 20px;
-	width:  200px;
-	text-align: center;
-}
-#screen_clear {
-	background-color: #DDD;
-	margin: 2px;
-	height: 20px;
-	width:  200px;
-	text-align: center;
-}
+
 .color_box {
 	width: 200px;
 }
+
 .color_box .color {
 	float: left;
 	margin: 2px;
 	height: 20px;
-	width:  40px;
+	width: 44px;
+
+	border: 1px solid black;
+	border-radius: 3px;
 }
 
 #game_screen {
@@ -82,4 +79,39 @@ body {
 
 .btn {
 	cursor: pointer;
+	margin: 5px 0px;
+	text-align: center;
+}
+
+.btn, button, input[type=button], input[type=submit] {
+	line-height: 21px;
+	height: 21px;
+
+	border: 1px solid #aaaaa3;
+	border-radius: 2px;
+	box-shadow: inset 1px 1px white, inset 0px -1px #d5d5d1;
+
+	background: #fcfcfb; /* Old browsers */
+	background: -moz-linear-gradient(top,  #fcfcfb 0%, #ddddda 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfb), color-stop(100%,#ddddda)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #fcfcfb 0%,#ddddda 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #fcfcfb 0%,#ddddda 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #fcfcfb 0%,#ddddda 100%); /* IE10+ */
+	background: linear-gradient(top,  #fcfcfb 0%,#ddddda 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfb', endColorstr='#ddddda',GradientType=0 ); /* IE6-9 */
+}
+
+.btn:hover, button:hover, input[type=button]:hover, input[type=submit]:hover {
+	border: 1px solid #5e98e3;
+	border-radius: 2px;
+	box-shadow: inset 1px 1px white, inset 0px -1px #afccf1;
+
+	background: #f2f8ff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f2f8ff 0%, #b0d0fb 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f8ff), color-stop(100%,#b0d0fb)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f2f8ff 0%,#b0d0fb 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f2f8ff 0%,#b0d0fb 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f2f8ff 0%,#b0d0fb 100%); /* IE10+ */
+	background: linear-gradient(top,  #f2f8ff 0%,#b0d0fb 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f8ff', endColorstr='#b0d0fb',GradientType=0 ); /* IE6-9 */
 }

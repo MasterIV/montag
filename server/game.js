@@ -1,13 +1,15 @@
 var db = null
   , logger = null
-  , io = null
-	, painter = null
-	, queue = []
-	, timeout = null
-	, word = null;
+  , io = null;
+
+var painter = null
+  , queue = []
+  , timeout = null
+  , word = null;
 
 var game = {
 	color : 6,
+
 	init: function( setdb, setlogger, setio ) {
 		db = setdb;
 		logger = setlogger;

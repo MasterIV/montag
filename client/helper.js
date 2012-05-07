@@ -1,7 +1,7 @@
 
 function system( msg, color ) {
-	if( color ) output( $( '<div class="sysmsg">' ).css( 'color', color ).text( '>>> '+msg ));
-	else output( $( '<div class="sysmsg">' ).text( '>>> '+msg ));
+	if( color ) output( $( '<div class="sysmsg">' ).css( 'color', color ).text( '» '+msg ));
+	else output( $( '<div class="sysmsg">' ).text( '» '+msg ));
 }
 
 function output( msg ) {

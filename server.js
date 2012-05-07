@@ -36,7 +36,7 @@ io.sockets.on('connection', function( user ) {
 
 	user.broadcast.emit( 'join', user.data );
 
-	var msg = {id: user.data.id, users: [], color:game.color};
+	var msg = {id: user.data.id, users: [], color: game.color};
 	for( var i = 0; i < connections.length; i++ ) msg.users.push( connections[i].data );
 	user.emit( 'init', msg );
 });
