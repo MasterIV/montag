@@ -1,10 +1,18 @@
 var protocol = {
 	init: function( data ) {
+		console.log( data );
+
 		self = data.id;
 		game.color = game.allcolor[data.color];
+
 		for( var i = 0; i < data.users.length; i++)
 			adduser( data.users[i].id, data.users[i].name, data.users[i].points );
-		system( 'Verbindung hergestellt.' )
+
+		system( 'Verbindung hergestellt.' );
+
+		if( data.countdown > 0 ) {
+			game.start( data.countdown );
+		}
 	},
 
 	join: function( data ) {
@@ -13,7 +21,7 @@ var protocol = {
 	},
 
 	leave: function( data ) {
-		output( $( '#user_'+data.id+' .name' ).text()+' hat den chat verlassen.' )
+		system( $( '#user_'+data.id+' .name' ).text()+' hat den chat verlassen.' )
 		$( '#user_'+data.id ).remove();
 	},
 
@@ -44,9 +52,16 @@ var protocol = {
 		game.draw_line( data.x, data.y );
 	},
 
+	game_new: function( data ) {
+		var name = $( '#user_'+data.painter+' .name' ).text();
+		system( 'Eine neue Runde hat begonnen, der Maler ist '+name, '#000088' );
+		game.start();
+	},
+
 	game_word: function( data ) {
 		game.ispainter = true;
 		system( 'Du bist an der Reihe! Male das folgende Wort: '+data.word, '#000088' );
+		game.start();
 	},
 
 	game_resolve: function( data ) {
@@ -54,7 +69,7 @@ var protocol = {
 
 		setpoints( data.winner.id, data.winner.points );
 		setpoints( data.painter.id, data.painter.points );
-		
+
 		system( data.winner.name+' Wort zu erraten. Das Wort lautete: '+data.word, '#008800' );
 	},
 

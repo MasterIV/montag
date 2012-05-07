@@ -4,6 +4,9 @@ var game = {
 	drawing: false,
 	ispainter: false,
 
+	interval: null,
+	countdown: 0,
+
 	allcolor : ['#FF0000', '#00FFFF', '#C0C0C0', '#0000FF',
 							'#808080', '#0000A0', '#000000', '#ADD8E6',
 							'#FFA500', '#800080', '#FFFF00', '#B27A11' ,
@@ -17,6 +20,25 @@ var game = {
 		this.ctx.stroke();
 		this.before.x = x;
 		this.before.y = y;
+	},
+
+	start: function( timer ) {
+		this.countdown = timer ? timer : 120;
+		this.tick();
+		this.interval = setInterval( function() { game.tick(); }, 1000 );
+	},
+
+	tick: function() {
+		var min = (this.countdown/60)|0;
+		var sec = (this.countdown%60)+'';
+		if( sec.length == 1 ) sec = '0'+sec;
+
+		$( '#countdown' ).text( min+':'+sec );
+
+		if( this.countdown < 1 )
+			clearInterval( this.interval );
+		this.countdown--;
+
 	},
 
 	screen_clear: function() {

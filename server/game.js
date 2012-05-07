@@ -7,11 +7,13 @@ var painter = null
   , timeout = null
 	, interval = null
   , word = null
-	, points = 0
-	, timetaken = 0;
+	, points = 0;
+
+var timelimit = 120;
 
 var game = {
 	color : 6,
+	countdown: 0,
 
 	init: function( setdb, setlogger, setio ) {
 		db = setdb;
@@ -68,17 +70,19 @@ var game = {
 			} else {
 				word = rows[0].word;
 				points = 250; // points = word.points
+				game.countdown = timelimit;
+				console.log( this );
 
 				db.query( "UPDATE words SET occured = occured + 1 WHERE id = "+rows[0].id, function(error, rows, cols) {
 					if(error) { logger.log( 0, error ); }
 				} );
 
 				painter = queue.shift();
-				timeout = setTimeout( function() { game.end(); }, 120000 );
-				interval = setInterval( function() { points *= .98; timetaken++; }, 1000 );
+				timeout = setTimeout( function() { game.end(); }, timelimit * 1000 );
+				interval = setInterval( function() { points *= .98; game.countdown--; }, 1000 );
 
 				io.sockets.emit( 'screen_clear', {} );
-				painter.broadcast.emit( 'info', { text: ('Eine neue Runde hat begonnen, der Maler ist '+painter.data.name), color: '#000088' });
+				painter.broadcast.emit( 'game_new', { painter: painter.data.id });
 				painter.emit( 'game_word', { word: word });
 			}
 		});
@@ -93,7 +97,7 @@ var game = {
 			user.data.points += points|0;
 
 			logger.log( 3, 'Tahe game is over and was won by: '+JSON.stringify( user.data ));
-			io.sockets.emit( 'game_resolve', { winner: user.data, painter: painter.data, word: word, points: points, time: timetaken } );
+			io.sockets.emit( 'game_resolve', { winner: user.data, painter: painter.data, word: word, points: points, time: timelimit-this.countdown } );
 		} else {
 			logger.log( 3, 'Tahe game is over without a winner.' );
 			io.sockets.emit( 'game_end', { word: word } );

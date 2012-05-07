@@ -10,14 +10,13 @@ body {
 
 #chat_container td {
 	vertical-align: top;
-
 }
 
 #chat_submit {
 	width: 100%;
 }
 
-#chat_users, #chat_content, #game_screen {
+#chat_users, #chat_content, #game_screen, #countdown {
 	border: 1px solid #aaaaa3;
 	border-radius: 2px;
 }
@@ -39,7 +38,7 @@ body {
 }
 
 #chat_users {
-	height: 390px;
+	height: 360px;
 	width:  200px;
 }
 
@@ -82,6 +81,14 @@ body {
 
 #game_screen {
 	position: relative;
+}
+
+#countdown {
+	line-height: 21px;
+	height: 21px;
+	margin: 5px 0px;
+	text-align: center;
+	color: #888;
 }
 
 .btn {
