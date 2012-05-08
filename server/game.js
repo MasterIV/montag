@@ -27,7 +27,12 @@ var game = {
 	},
 
 	disconnect: function( user ) {
-		queue.splice( queue.indexOf( user ), 1 );
+		var index = queue.indexOf( user );
+		user.data.requeue = false;
+
+		if( -1 != index ) {
+			queue.splice( index, 1 );
+		}
 
 		if( user == painter ) {
 			this.end();
@@ -68,13 +73,14 @@ var game = {
 	},
 
 	start: function() {
-		if( !queue.length ) return false;
+		if( queue.length < 1 ) return false;
 		logger.log( 3, 'Starting a new Game' );
 
 		db.query( "SELECT * FROM words ORDER BY occured, RAND() LIMIT 1", function(error, rows, cols) {
 			if(error) {
 				logger.log( 0, error );
 			} else {
+				painter = queue.shift();
 				word = rows[0].word;
 				points = 250; // points = word.points
 				game.countdown = timelimit;
@@ -83,7 +89,6 @@ var game = {
 					if(error) {logger.log( 0, error );}
 				} );
 
-				painter = queue.shift();
 				timeout = setTimeout( function() {game.end();}, timelimit * 1000 );
 				interval = setInterval( function() {points *= .98;game.countdown--;}, 1000 );
 
