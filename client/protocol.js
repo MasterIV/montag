@@ -9,6 +9,7 @@ var protocol = {
 			adduser( data.users[i].id, data.users[i].name, data.users[i].points );
 
 		system( 'Verbindung hergestellt.' );
+		output( $( '<div class="sysmsg">' ).html( '» Verwende <i><b>/nick username</b></i> um deinen Namen zu ändern.' ));
 
 		if( data.countdown > 0 ) {
 			game.start( data.countdown );

@@ -91,13 +91,16 @@ body {
 	color: #888;
 }
 
-.btn {
-	cursor: pointer;
+.btn, #request_painting {
 	margin: 5px 0px;
 	text-align: center;
 }
 
-.btn, button, input[type=button], input[type=submit] {
+.btn {
+	cursor: pointer;
+}
+
+.btn, button, input[type=button], input[type=submit], #request_painting {
 	line-height: 21px;
 	height: 21px;
 

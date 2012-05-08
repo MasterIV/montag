@@ -26,7 +26,10 @@
 
 					<div id="countdown">0:00</div>
 
-					<div id="request_painting" class="btn" onclick="request_paint();">Malen!</div>
+					<div id="request_painting">
+						<input type="checkbox" onchange="request_paint( $( this ).is( ':checked' ));" style="vertical-align: bottom;"> ich möchte malen
+					</div>
+
 					<div id="screen_clear" class="btn" onclick="screen_clear();">Zeichenfläche löschen!</div>
 
 					<div class="color_box">

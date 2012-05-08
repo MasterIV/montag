@@ -59,8 +59,8 @@ function sendform( form ) {
 	return false;
 }
 
-function request_paint() {
-	socket.emit( 'painter_request',{} );
+function request_paint( requeue ) {
+	socket.emit( 'painter_request', requeue );
 }
 
 function screen_clear() {

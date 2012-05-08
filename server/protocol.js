@@ -28,7 +28,7 @@ var protocol = {
 		},
 
 		painter_request: function( data ) {
-			game.request( this );
+			game.request( this, data );
 		},
 
 		screen_clear: function( data ) {
