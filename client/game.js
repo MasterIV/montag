@@ -1,6 +1,7 @@
 var game = {
 	canvas: null,
 	before: {x: 0, y: 0},
+	mouse: {x: 0, y: 0},
 	drawing: false,
 	ispainter: false,
 
@@ -63,16 +64,20 @@ var game = {
 		}
 	},
 
+	pen_get: function() {
+		if(game.ispainter){
+			if( !game.drawing ) return;
+			if( game.mouse.x == game.before.x && game.mouse.y == game.before.y ) return;
+
+			game.draw_line(game.mouse.x, game.mouse.y);
+			socket.emit( 'pen_move', game.before );
+		}
+	},
+
 	pen_move: function( ev ) {
 		if(game.ispainter){
-			var x = ev.layerX;
-			var y = ev.layerY;
-
-			if( !game.drawing ) return;
-			if( x == game.before.x && y == game.before.y ) return;
-
-			game.draw_line(x, y);
-			socket.emit( 'pen_move', game.before );
+			game.mouse.x = ev.layerX;
+			game.mouse.y = ev.layerY;
 		}
 	},
 
