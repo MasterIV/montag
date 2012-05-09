@@ -61,16 +61,20 @@ var game = {
 				game.drawing = true;
 
 				socket.emit( 'pen_down', game.before );
+				setTimeout( game.pen_get, 50 );
 		}
 	},
 
 	pen_get: function() {
 		if(game.ispainter){
 			if( !game.drawing ) return;
-			if( game.mouse.x == game.before.x && game.mouse.y == game.before.y ) return;
 
-			game.draw_line(game.mouse.x, game.mouse.y);
-			socket.emit( 'pen_move', game.before );
+			if( game.mouse.x != game.before.x || game.mouse.y != game.before.y ) {
+				game.draw_line(game.mouse.x, game.mouse.y);
+				socket.emit( 'pen_move', game.before );
+			}
+
+			setTimeout( game.pen_get, 50 );
 		}
 	},
 
