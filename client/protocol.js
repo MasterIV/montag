@@ -39,6 +39,16 @@ var protocol = {
 		system( old+' heißt nun '+data.name );
 		$( '#user_'+data.user+' .name' ).text( data.name );
 	},
+	
+	vaildfbstate: function( data ) {
+		if(data.vaild == true){
+			realname_set( data.fbname );
+			system( 'login via facebook '+data.fbname );
+		} else {
+			system( 'Error by login to facebook ' );
+		}
+		
+	},
 
 	screen_clear: function( data ) {
 		game.screen_clear();

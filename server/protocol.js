@@ -17,6 +17,14 @@ var protocol = {
 	},
 
 	commands: {
+		fbstate : function (data) {
+			game.checkfb(this, data, function(user ,data){
+				var Jsondata = JSON.parse(data);
+				user.emit('vaildfbstate',{'fbname' : Jsondata.first_name, "vaild": Jsondata.verified});
+			});
+			
+		},
+		
 		name: function( data ) {
 			this.data.name = data;
 			io.sockets.emit( 'name', {user: this.data.id, name: data});

@@ -72,3 +72,27 @@ function color_set( color_dom ){
 	var color = $(color_dom).data('color');
 	socket.emit( 'color_set',{color:color} );
 }
+
+function send_fb_login() {
+	fbcheck(client_respons_fb);
+	
+	//socket.emit('fbstate',{"fbstate" : fbcheck()});
+}
+function client_respons_fb (resp){
+		
+	if (resp !== false){
+		$('#login').unbind('click');
+		$('#login').text('Loading ...');
+		socket.emit('fbstate',{"accessToken" : resp.authResponse.accessToken, "uid" : resp.authResponse.userID});
+	}
+	else {
+		$('#login').unbind('click');
+		$('#login').bind("click", fblogin);
+	}
+}
+
+
+
+function realname_set(name) {
+	$('#login').text('Hallo '+name);
+}

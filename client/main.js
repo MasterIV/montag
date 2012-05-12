@@ -19,5 +19,9 @@ $( function() {
 	game.canvas.onmousedown = game.pen_down;
 	document.onmouseup = game.pen_up;
 	game.color = '#000000';
-
+	fbini();
+	send_fb_login();
+	FB.Event.subscribe('auth.login', function(response) {
+		client_respons_fb(response);
+	});
 });

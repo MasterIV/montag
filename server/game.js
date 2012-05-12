@@ -1,6 +1,7 @@
 var db = null
   , logger = null
-  , io = null;
+  , io = null
+  , https = null;
 
 var painter = null
   , queue = []
@@ -15,13 +16,33 @@ var game = {
 	color : 6,
 	countdown: 0,
 
-	init: function( setdb, setlogger, setio ) {
+	init: function( setdb, setlogger, setio, sethttps ) {
 		db = setdb;
 		logger = setlogger;
 		io = setio;
+		https = sethttps;
 		return this;
 	},
+	
+	checkfb: function ( user, data , callondata ) {
+		var req = https.request({
+		  host: 'graph.facebook.com',
+		  port: 443,
+		  path: '/'+data.uid+'?access_token='+data.accessToken,
+		  method: 'GET'
+		}, function(res) {
 
+		  res.on('data', function(d) {
+			  callondata(user, d);
+		  });
+		  
+		});
+		req.end();
+		req.on('error', function(e) {
+		  console.log(e);
+		});
+	},
+	
 	ispainter: function( user ) {
 		return user == painter;
 	},
@@ -106,7 +127,7 @@ var game = {
 		if( user ) {
 			painter.data.points += points|0;
 			user.data.points += points|0;
-
+			
 			logger.log( 3, 'Tahe game is over and was won by: '+JSON.stringify( user.data ));
 			io.sockets.emit( 'game_resolve', {winner: user.data, painter: painter.data, word: word, points: points, time: timelimit-this.countdown} );
 		} else {

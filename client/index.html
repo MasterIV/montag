@@ -5,15 +5,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<link rel="stylesheet" type="text/css" href="main.css">
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="fb.js"></script>
 		<script type="text/javascript" src="jquery.min.js"></script>
 		<script type="text/javascript" src="helper.js"></script>
 		<script type="text/javascript" src="game.js"></script>
 		<script type="text/javascript" src="protocol.js"></script>
 		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js"></script>
+		
 	</head>
 
 	<body>
-
+<div id="fb-root"></div>
+ <div class="fb-login-button" style="display: none;"></div>
 		<form onsubmit="return sendform(this);">
 
 		<table id="chat_container">
@@ -23,7 +27,9 @@
 					<div id="chat_content"><div></div></div>
 				</td><td>
 					<div id="chat_users"></div>
-
+					
+					<div id="login"> Login</div>
+					
 					<div id="countdown">0:00</div>
 
 					<div id="request_painting">
