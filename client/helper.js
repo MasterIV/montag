@@ -45,7 +45,10 @@ function sendform( form ) {
 		if( cmd == "help" ) {
 			system( "On my ToDoList: creating a Help File" );
 		} else if( cmd == "nick" ) {
-			if( args.length ) socket.emit( 'name', args.shift());
+			if( args.length ){
+				console.log(fbtoken);
+				socket.emit( 'name', {"name" : args.shift(),"token" : fbtoken});
+			}
 			else system( 'Bitte einen Namen angeben...' );
 		} else {
 			system( "Unknown Command: "+cmd );
@@ -79,11 +82,12 @@ function send_fb_login() {
 	//socket.emit('fbstate',{"fbstate" : fbcheck()});
 }
 function client_respons_fb (resp){
-		
-	if (resp !== false){
+	
+	if (resp !== false ){
 		$('#login').unbind('click');
 		$('#login').text('Loading ...');
-		socket.emit('fbstate',{"accessToken" : resp.authResponse.accessToken, "uid" : resp.authResponse.userID});
+		fbtoken = resp.authResponse.accessToken;
+		socket.emit('fbstate',{"accessToken" : fbtoken, "uid" : resp.authResponse.userID});
 	}
 	else {
 		$('#login').unbind('click');

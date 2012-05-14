@@ -21,6 +21,11 @@ $( function() {
 	game.color = '#000000';
 	fbini();
 	send_fb_login();
+	
+	FB.Event.subscribe('auth.authResponseChange', function(response) {
+		response = (response.status == "unknown") ? false : response;
+		client_respons_fb(response);
+	});
 	FB.Event.subscribe('auth.login', function(response) {
 		client_respons_fb(response);
 	});

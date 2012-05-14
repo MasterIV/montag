@@ -1,3 +1,4 @@
+var fbtoken = null;
 function fbini(){
 		 FB.init({
             appId      : '456606837688818',

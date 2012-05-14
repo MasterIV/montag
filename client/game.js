@@ -4,7 +4,6 @@ var game = {
 	mouse: {x: 0, y: 0},
 	drawing: false,
 	ispainter: false,
-
 	interval: null,
 	countdown: 0,
 

@@ -1,6 +1,5 @@
 var protocol = {
 	init: function( data ) {
-		console.log( data );
 
 		self = data.id;
 		game.color = game.allcolor[data.color];
@@ -40,6 +39,10 @@ var protocol = {
 		$( '#user_'+data.user+' .name' ).text( data.name );
 	},
 	
+	point_update:  function ( data ){
+		setpoints( data.id, data.points );
+	},
+	
 	vaildfbstate: function( data ) {
 		if(data.vaild == true){
 			realname_set( data.fbname );
@@ -49,6 +52,7 @@ var protocol = {
 		}
 		
 	},
+	
 
 	screen_clear: function( data ) {
 		game.screen_clear();

@@ -416,3 +416,13 @@ INSERT INTO `words` (`id`, `word`, `game`, `occured`) VALUES
 (382, 'Baby', 0, 4),
 (383, 'Axt', 0, 3),
 (384, 'Elefant', 0, 4);
+
+
+CREATE TABLE `dev_montag`.`user` (
+`id` INT( 28 ) NOT NULL auto_increment,
+`fb_uid` INT( 28 ) NOT NULL ,
+`score` INT( 28 ) NOT NULL ,
+`name` VARCHAR( 64 ) NOT NULL ,
+`last_seen` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY  (`id`)
+) ENGINE = MYISAM ;

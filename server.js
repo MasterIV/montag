@@ -18,6 +18,7 @@ var server = http.createServer(app).listen(8080);
 
 
 
+
 var io = require('socket.io').listen(server);
 
 io.set('log level', 1 );
@@ -26,8 +27,9 @@ logger.level = 2;
 var connections = [];
 var usercount = 0;
 
-var game = require( './server/game.js' ).init( db, logger, io, https );
-var protocol = require( './server/protocol.js' ).init( game, db, io );
+var fbfunk = require( './server/fb.js' ).init( https, logger );
+var game = require( './server/game.js' ).init( db, logger, io, https, fbfunk );
+var protocol = require( './server/protocol.js' ).init( game, db, io, fbfunk );
 
 io.sockets.on('connection', function( user ) {
 	connections.push( user );

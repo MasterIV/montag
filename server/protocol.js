@@ -1,13 +1,15 @@
 
 var game = null
   , db = null
+  , fbfunk= null
   , io = null;
 
 var protocol = {
-	init: function( setgame, setdb, setio ) {
+	init: function( setgame, setdb, setio, setfbfunk ) {
 		db = setdb;
 		game = setgame;
 		io = setio;
+		fbfunk = setfbfunk;
 		return this;
 	},
 
@@ -18,16 +20,43 @@ var protocol = {
 
 	commands: {
 		fbstate : function (data) {
-			game.checkfb(this, data, function(user ,data){
-				var Jsondata = JSON.parse(data);
-				user.emit('vaildfbstate',{'fbname' : Jsondata.first_name, "vaild": Jsondata.verified});
+			
+			fbfunk.checkfb(this, data, function( user, resp ){
+				if(resp.verified) {
+					db.query( "SELECT * FROM  user WHERE fb_uid = "+db.escape(resp.id), function(error, rows, cols) {
+						if(error) {
+							console.log( 0, error );
+						}
+						else {
+							if(rows[0] == null){
+								db.query( "INSERT INTO user (fb_uid,score,name) VALUES("+db.escape(resp.id)+",0,"+db.escape(user.data.name)+");", function(error, rows, cols) {
+									if(error) {console.log( 0, error );}
+								} );
+							}
+							else {
+								user.data.name = rows[0].name;
+								user.data.points = rows[0].score;
+								io.sockets.emit( 'name', {user: user.data.id, name: user.data.name});
+								io.sockets.emit( 'point_update', {id: user.data.id, points: user.data.points});
+							}
+						}
+								
+					} );
+				}
+				user.emit('vaildfbstate',{'fbname' : (resp.first_name) ? resp.first_name : null, "vaild": resp.verified});
+				
 			});
 			
 		},
 		
 		name: function( data ) {
-			this.data.name = data;
-			io.sockets.emit( 'name', {user: this.data.id, name: data});
+			if(data.token != null && data.token == this.data.fbtoken) {
+				db.query( "UPDATE user SET name = "+db.escape(data.name)+" WHERE fb_uid  = "+db.escape(this.data.fbuid), function(error, rows, cols) {
+					if(error) {console.log( 0, error );}
+				} );
+		}
+			this.data.name = data.name;
+			io.sockets.emit( 'name', {user: this.data.id, name: data.name});
 		},
 
 		say: function( data ) {
