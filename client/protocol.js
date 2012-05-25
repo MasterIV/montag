@@ -40,8 +40,8 @@ var protocol = {
 	},
 
 	login: function( data ) {
-		if( data.newuser ) {
-			var old = $( '#user_'+data.user+' .name' ).text();
+		if( !data.newuser ) {
+			var old = $( '#user_'+data.id+' .name' ).text();
 			system( old+' heißt nun '+data.name );
 		}
 
