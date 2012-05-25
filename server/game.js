@@ -1,9 +1,9 @@
 var db = null
   , logger = null
   , io = null
-  , fbfunk = null
+  , fb = null
   , https = null;
-  
+
 var painter = null
   , queue = []
   , timeout = null
@@ -16,16 +16,16 @@ var timelimit = 120;
 var game = {
 	color : 6,
 	countdown: 0,
-	
+
 	init: function( setdb, setlogger, setio, sethttps, setfbfunk ) {
 		db = setdb;
 		logger = setlogger;
 		io = setio;
 		https = sethttps;
-		fbfunk = setfbfunk;
+		fb = setfbfunk;
 		return this;
 	},
-	
+
 	ispainter: function( user ) {
 		return user == painter;
 	},
@@ -110,28 +110,20 @@ var game = {
 		if( user ) {
 			painter.data.points += points|0;
 			user.data.points += points|0;
-			if( painter.data.fbuid ){
-				//TODO check fb
-				fbfunk.checkfb(painter, {"uid" :painter.data.fbuid, "accessToken" : painter.data.fbtoken} , function( painter, d ){
-					if(d.verified) { 
-						db.query( "UPDATE user SET score  = "+db.escape(painter.data.points)+" WHERE fb_uid = "+db.escape(painter.data.fbuid), function(error, rows, cols) {
-							if(error) {logger.log( 0, error );}
-						} );
-					}
-				});
-			}
-			if(user.data.fbuid){
-				//TODO check fb
-				fbfunk.checkfb(user, {"uid" : user.data.fbuid, "accessToken" : user.data.fbtoken } , function( user, data ){
-					if(data.verified) { 
-						db.query( "UPDATE user SET score  = "+db.escape(user.data.points)+" WHERE fb_uid = "+db.escape(user.data.fbuid), function(error, rows, cols) {
-							if(error) {logger.log( 0, error );}
-						} );
-					}
-				});
-			}
+
+			if( painter.data.fbuid )
+				fb.setpoints( painter.data.fbuid, painter.data.points );
+			if( user.data.fbuid )
+				fb.setpoints( user.data.fbuid, user.data.points );
+
 			logger.log( 3, 'Tahe game is over and was won by: '+JSON.stringify( user.data ));
-			io.sockets.emit( 'game_resolve', {winner: user.data, painter: painter.data, word: word, points: points, time: timelimit-this.countdown} );
+			io.sockets.emit( 'game_resolve', {
+				winner: user.data,
+				painter: painter.data,
+				word: word,
+				points: points,
+				time: timelimit-this.countdown
+			} );
 		} else {
 			logger.log( 3, 'Tahe game is over without a winner.' );
 			io.sockets.emit( 'game_end', {word: word} );

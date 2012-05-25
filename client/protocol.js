@@ -38,21 +38,20 @@ var protocol = {
 		system( old+' heißt nun '+data.name );
 		$( '#user_'+data.user+' .name' ).text( data.name );
 	},
-	
-	point_update:  function ( data ){
+
+	login: function( data ) {
+		if( data.newuser ) {
+			var old = $( '#user_'+data.user+' .name' ).text();
+			system( old+' heißt nun '+data.name );
+		}
+
+		if( data.realname ) {
+			set_fb_button( 'Hallo '+data.realname );
+		}
+
+		$( '#user_'+data.id+' .name' ).text( data.name );
 		setpoints( data.id, data.points );
 	},
-	
-	vaildfbstate: function( data ) {
-		if(data.vaild == true){
-			realname_set( data.fbname );
-			system( 'login via facebook '+data.fbname );
-		} else {
-			system( 'Error by login to facebook ' );
-		}
-		
-	},
-	
 
 	screen_clear: function( data ) {
 		game.screen_clear();

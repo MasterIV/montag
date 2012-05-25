@@ -36,8 +36,10 @@ function say( id, message ) {
 function sendform( form ) {
 	var text = form.chat_input.value;
 	form.chat_input.value = '';
+
 	if(text.length == 0)
 		return false;
+
 	if( text.substr( 0, 1 ) == "/" ) {
 		var args = text.substr( 1 ).split( " " );
 		var cmd = args.shift();
@@ -45,19 +47,15 @@ function sendform( form ) {
 		if( cmd == "help" ) {
 			system( "On my ToDoList: creating a Help File" );
 		} else if( cmd == "nick" ) {
-			if( args.length ){
-				console.log(fbtoken);
-				socket.emit( 'name', {"name" : args.shift(),"token" : fbtoken});
-			}
+			if( args.length ) socket.emit( 'name', {"name" : args.shift()});
 			else system( 'Bitte einen Namen angeben...' );
 		} else {
 			system( "Unknown Command: "+cmd );
 		}
 	} else {
-		socket.emit( 'say', text );
+		socket.emit( 'say', $.trim( text ));
 		say( self, text );
 	}
-
 
 	return false;
 }
@@ -76,27 +74,11 @@ function color_set( color_dom ){
 	socket.emit( 'color_set',{color:color} );
 }
 
-function send_fb_login() {
-	fbcheck(client_respons_fb);
-	
-	//socket.emit('fbstate',{"fbstate" : fbcheck()});
-}
-function client_respons_fb (resp){
-	
-	if (resp !== false ){
-		$('#login').unbind('click');
-		$('#login').text('Loading ...');
-		fbtoken = resp.authResponse.accessToken;
-		socket.emit('fbstate',{"accessToken" : fbtoken, "uid" : resp.authResponse.userID});
+function set_fb_button( text, clickaction ) {
+	$('#login').unbind('click');
+	$('#login').text(text);
+
+	if( clickaction ) {
+		$('#login').click( clickaction );
 	}
-	else {
-		$('#login').unbind('click');
-		$('#login').bind("click", fblogin);
-	}
-}
-
-
-
-function realname_set(name) {
-	$('#login').text('Hallo '+name);
 }

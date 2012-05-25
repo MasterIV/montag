@@ -1,7 +1,7 @@
 
 var game = null
   , db = null
-  , fbfunk= null
+  , fb= null
   , io = null;
 
 var protocol = {
@@ -9,7 +9,7 @@ var protocol = {
 		db = setdb;
 		game = setgame;
 		io = setio;
-		fbfunk = setfbfunk;
+		fb = setfbfunk;
 		return this;
 	},
 
@@ -19,44 +19,14 @@ var protocol = {
 	},
 
 	commands: {
-		fbstate : function (data) {
-			
-			fbfunk.checkfb(this, data, function( user, resp ){
-				if(resp.verified) {
-					db.query( "SELECT * FROM  user WHERE fb_uid = "+db.escape(resp.id), function(error, rows, cols) {
-						if(error) {
-							console.log( 0, error );
-						}
-						else {
-							if(rows[0] == null){
-								db.query( "INSERT INTO user (fb_uid,score,name) VALUES("+db.escape(resp.id)+",0,"+db.escape(user.data.name)+");", function(error, rows, cols) {
-									if(error) {console.log( 0, error );}
-								} );
-							}
-							else {
-								user.data.name = rows[0].name;
-								user.data.points = rows[0].score;
-								io.sockets.emit( 'name', {user: user.data.id, name: user.data.name});
-								io.sockets.emit( 'point_update', {id: user.data.id, points: user.data.points});
-							}
-						}
-								
-					} );
-				}
-				user.emit('vaildfbstate',{'fbname' : (resp.first_name) ? resp.first_name : null, "vaild": resp.verified});
-				
-			});
-			
+		login : function (data) {
+			fb.login( this, data );
 		},
-		
+
 		name: function( data ) {
-			if(data.token != null && data.token == this.data.fbtoken) {
-				db.query( "UPDATE user SET name = "+db.escape(data.name)+" WHERE fb_uid  = "+db.escape(this.data.fbuid), function(error, rows, cols) {
-					if(error) {console.log( 0, error );}
-				} );
-		}
 			this.data.name = data.name;
 			io.sockets.emit( 'name', {user: this.data.id, name: data.name});
+			if( this.data.fbuid ) fb.setname( this.data.fbuid, data.name );
 		},
 
 		say: function( data ) {

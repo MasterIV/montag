@@ -91,7 +91,7 @@ body {
 	color: #888;
 }
 
-.btn, #request_painting, #login {
+.btn, #request_painting {
 	margin: 5px 0px;
 	text-align: center;
 }
@@ -100,7 +100,7 @@ body {
 	cursor: pointer;
 }
 
-.btn, button, input[type=button], input[type=submit], #request_painting, #login {
+.btn, button, input[type=button], input[type=submit], #request_painting {
 	line-height: 21px;
 	height: 21px;
 
