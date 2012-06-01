@@ -1,12 +1,9 @@
-var https = null
-	,db = null
-	,logger = null;
+var https = https = require('https')
+	,db = null;
 
-var fbfunk = {
+var fb = {
 
-	init: function (sethttps, setlogger, setdb ){
-		https = sethttps;
-		logger = setlogger;
+	init: function ( setdb ){
 		db = setdb;
 		return this;
 	},
@@ -63,4 +60,4 @@ var fbfunk = {
 
 }
 
-module.exports = fbfunk;
+module.exports = fb;
