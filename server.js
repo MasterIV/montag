@@ -52,5 +52,8 @@ io.sockets.on('connection', function( user ) {
 	var msg = {id: user.data.id, users: [], color: game.color, countdown: game.countdown };
 	for( var i = 0; i < connections.length; i++ ) msg.users.push( connections[i].data );
 	user.emit( 'init', msg );
+	
+	// log the connection count
+	db.query( "INSERT INTO stats (ip,time,count) VALUES("+db.escape(user.handshake.address.address)+",UNIX_TIMESTAMP(),"+connections.length+");" );
 });
 
